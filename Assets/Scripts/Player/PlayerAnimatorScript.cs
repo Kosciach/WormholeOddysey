@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerAnimatorScript : MonoBehaviour
 {
+    [Header("====References====")]
+    [SerializeField] TrailRendererController _trailRendererController;
+
+
+    [Space(20)]
     [Header("====AnimationSettings====")]
 
     [Space(5)]
@@ -33,8 +38,11 @@ public class PlayerAnimatorScript : MonoBehaviour
 
     public void JumpAnimation()
     {
-        transform.LeanScaleX(_jumpWidth, _jumpAnimationSpeed);
-        transform.LeanScaleY(_jumpHeight, _jumpAnimationSpeed);
+        transform.LeanScaleX(_jumpWidth, _jumpAnimationSpeed).setEaseOutExpo();
+        transform.LeanScaleY(_jumpHeight/3, _jumpAnimationSpeed/5).setOnComplete(() =>
+        {
+            transform.LeanScaleY(_jumpHeight, _jumpAnimationSpeed/4);
+        });
     }
     public void FallAnimation()
     {

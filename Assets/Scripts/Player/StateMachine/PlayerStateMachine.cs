@@ -28,6 +28,7 @@ public class PlayerStateMachine : MonoBehaviour
         public bool Grounded;
         public bool Jump;
         public bool Fall;
+        public bool Menu;
     }
 
 
@@ -35,8 +36,9 @@ public class PlayerStateMachine : MonoBehaviour
     private void Awake()
     {
         _stateFactory = new PlayerStateFactory(this);
-        _currectState = _stateFactory.Grounded();
+        _currectState = _stateFactory.Menu();
         _currectState.StateEnter();
+        _switches.Menu = true;
     }
     private void Update()
     {
@@ -49,20 +51,25 @@ public class PlayerStateMachine : MonoBehaviour
     }
 
 
-
     private void SwitchToJump()
     {
         if(_playerMovementController.IsGrounded()) _switches.Jump = true;
+    }
+    private void SwitchToGrounded()
+    {
+        _switches.Grounded = true;
     }
 
 
     private void OnEnable()
     {
         PlayerInputController.Jump += SwitchToJump;
+        GameStateFactory.GameplayEvent += SwitchToGrounded;
     }
     private void OnDisable()
     {
         PlayerInputController.Jump -= SwitchToJump;
+        GameStateFactory.GameplayEvent -= SwitchToGrounded;
     }
 }
 
@@ -97,5 +104,10 @@ public class PlayerStateFactory
     {
         string stateName = MethodBase.GetCurrentMethod().Name;
         return new PlayerFallState(_ctx, this, stateName);
+    }
+    public PlayerBaseState Menu()
+    {
+        string stateName = MethodBase.GetCurrentMethod().Name;
+        return new PlayerMenuState(_ctx, this, stateName);
     }
 }

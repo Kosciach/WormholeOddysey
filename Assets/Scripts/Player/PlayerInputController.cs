@@ -10,6 +10,8 @@ public class PlayerInputController : MonoBehaviour
 
     public delegate void PlayerInputEvent();
     public static event PlayerInputEvent Jump;
+    public static event PlayerInputEvent AttackLeft;
+    public static event PlayerInputEvent AttackRight;
 
     private PlayerInputs _playerInputs;
 
@@ -21,6 +23,8 @@ public class PlayerInputController : MonoBehaviour
     private void Start()
     {
         _playerInputs.Player.Jump.performed += ctx => Jump();
+        _playerInputs.Player.AttackLeft.performed += ctx => AttackLeft();
+        _playerInputs.Player.AttackRight.performed += ctx => AttackRight();
     }
     private void Update()
     {
