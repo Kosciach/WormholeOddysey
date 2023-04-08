@@ -12,6 +12,7 @@ public class GamePauseState : GameBaseState
     public override void StateEnter()
     {
         _ctx.CanvasController.SwitchScreen(_ctx.CurrentStateName);
+        Time.timeScale = 0f;
     }
     public override void StateCheckChange()
     {
@@ -23,6 +24,7 @@ public class GamePauseState : GameBaseState
     }
     protected override void StateExit()
     {
+        Time.timeScale = 1f;
         _ctx.Swiches.Pause = false;
     }
 }

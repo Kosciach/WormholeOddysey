@@ -30,7 +30,7 @@ public class PlayerFallState : PlayerBaseState
             StateChange(_factory.Grounded());
         }
     }
-    protected override void StateExit()
+    public override void StateExit()
     {
         _ctx.PlayerAnimatorScript.LandAnimation();
         _ctx.Swiches.Fall = false;

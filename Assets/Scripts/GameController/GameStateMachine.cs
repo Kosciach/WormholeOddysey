@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStateMachine : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class GameStateMachine : MonoBehaviour
         public bool Menu;
         public bool Gameplay;
         public bool Pause;
+        public bool Exit;
     }
 
 
@@ -30,9 +32,9 @@ public class GameStateMachine : MonoBehaviour
     private void Awake()
     {
         _stateFactory = new GameStateFactory(this);
-        _currectState = _stateFactory.Menu();
+        _currectState = _stateFactory.Gameplay();
         _currectState.StateEnter();
-        _switches.Menu = true;
+        _switches.Gameplay = true;
     }
     private void Update()
     {
@@ -43,8 +45,10 @@ public class GameStateMachine : MonoBehaviour
 
     public void SwitchToMenu()
     {
+        _switches.Gameplay = false;
         _switches.Menu = true;
         _switches.Pause = false;
+        StartCoroutine(GoToMainMenu());
     }
     public void SwitchToGameplay()
     {
@@ -64,6 +68,13 @@ public class GameStateMachine : MonoBehaviour
     private void OnDisable()
     {
         GameInputController.Pause -= SwitchToPause;
+    }
+
+
+    private IEnumerator GoToMainMenu()
+    {
+        yield return new WaitForSeconds(3.35f);
+        SceneManager.LoadScene("MenuEnterCutScene");
     }
 }
 
@@ -90,13 +101,13 @@ public class GameStateFactory
 
     public GameBaseState Menu()
     {
-        //MenuEvent();
+        MenuEvent();
         string stateName = MethodBase.GetCurrentMethod().Name;
         return new GameMenuState(_ctx, this, stateName);
     }
     public GameBaseState Gameplay()
     {
-        GameplayEvent();
+        //GameplayEvent();
         string stateName = MethodBase.GetCurrentMethod().Name;
         return new GameGameplayState(_ctx, this, stateName);
     }

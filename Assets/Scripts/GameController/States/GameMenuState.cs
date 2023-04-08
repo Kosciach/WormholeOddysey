@@ -15,8 +15,7 @@ public class GameMenuState : GameBaseState
     }
     public override void StateCheckChange()
     {
-        if (_ctx.Swiches.Gameplay) StateChange(_factory.Gameplay());
-        else if (_ctx.Swiches.Pause) StateChange(_factory.Pause());
+
     }
     protected override void StateExit()
     {

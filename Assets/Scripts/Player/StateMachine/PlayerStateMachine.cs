@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Space(20)]
     [Header("====References====")]
     [SerializeField] Rigidbody2D _rigidbody; public Rigidbody2D Rigidbody { get { return _rigidbody;} set { _rigidbody = value; } }
+    [SerializeField] PlayableDirector _timeLine; public PlayableDirector TimeLine { get { return _timeLine; } }
 
     [SerializeField] SwitchesClass _switches; public SwitchesClass Swiches { get { return _switches; } set { _switches = value; } }
     [System.Serializable]
@@ -36,9 +39,9 @@ public class PlayerStateMachine : MonoBehaviour
     private void Awake()
     {
         _stateFactory = new PlayerStateFactory(this);
-        _currectState = _stateFactory.Menu();
+        _currectState = _stateFactory.Grounded();
         _currectState.StateEnter();
-        _switches.Menu = true;
+        _switches.Grounded = true;
     }
     private void Update()
     {
@@ -59,17 +62,30 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _switches.Grounded = true;
     }
+    private void SwitchToMenu()
+    {
+        _switches.Grounded = false;
+        _switches.Jump = false;
+        _switches.Fall = false;
+        _switches.Menu = true;
+
+        _currectState.StateExit();
+        _currectState = _stateFactory.Menu();
+        _currectState.StateEnter();
+    }
 
 
     private void OnEnable()
     {
         PlayerInputController.Jump += SwitchToJump;
         GameStateFactory.GameplayEvent += SwitchToGrounded;
+        GameStateFactory.MenuEvent += SwitchToMenu;
     }
     private void OnDisable()
     {
         PlayerInputController.Jump -= SwitchToJump;
         GameStateFactory.GameplayEvent -= SwitchToGrounded;
+        GameStateFactory.MenuEvent -= SwitchToMenu;
     }
 }
 

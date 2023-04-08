@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMenuState : PlayerBaseState
 {
@@ -11,7 +12,9 @@ public class PlayerMenuState : PlayerBaseState
 
     public override void StateEnter()
     {
-
+        _ctx.Rigidbody.isKinematic = true;
+        _ctx.Rigidbody.velocity = Vector2.zero;
+        _ctx.TimeLine.Play();
     }
     public override void StateUpdate()
     {
@@ -23,9 +26,9 @@ public class PlayerMenuState : PlayerBaseState
     }
     public override void StateCheckChange()
     {
-        if (_ctx.Swiches.Grounded) StateChange(_factory.Grounded());
+
     }
-    protected override void StateExit()
+    public override void StateExit()
     {
         _ctx.Swiches.Menu = false;
     }

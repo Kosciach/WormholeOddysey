@@ -30,7 +30,7 @@ public class PlayerJumpState : PlayerBaseState
             StateChange(_factory.Fall());
         }
     }
-    protected override void StateExit()
+    public override void StateExit()
     {
         _ctx.Swiches.Jump = false;
     }

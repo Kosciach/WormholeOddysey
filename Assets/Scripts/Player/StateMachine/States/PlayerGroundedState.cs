@@ -25,7 +25,7 @@ public class PlayerGroundedState : PlayerBaseState
     {
         if (_ctx.Swiches.Jump) StateChange(_factory.Jump());
     }
-    protected override void StateExit()
+    public override void StateExit()
     {
         _ctx.Swiches.Grounded = false;
     }

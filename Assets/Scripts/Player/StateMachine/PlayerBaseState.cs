@@ -19,7 +19,7 @@ public abstract class PlayerBaseState
     public abstract void StateUpdate();
     public abstract void StateFixedUpdate();
     public abstract void StateCheckChange();
-    protected abstract void StateExit();
+    public abstract void StateExit();
 
 
     protected void StateChange(PlayerBaseState newState)
