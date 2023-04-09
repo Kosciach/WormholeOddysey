@@ -11,7 +11,7 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void StateEnter()
     {
-
+        _ctx.PlayerStats.ToggleCanTakeDamage(true);
     }
     public override void StateUpdate()
     {

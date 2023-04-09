@@ -105,7 +105,7 @@ public class EnemyProjectileController : MonoBehaviour, IStatsInterface
         if(collision.CompareTag("Player"))
         {
             InstanciateHitEffect(transform);
-            collision.GetComponent<IStatsInterface>().TakeDamage(_damage);
+            collision.GetComponent<PlayerStats>().TakeDamage(_damage);
             Destroy(gameObject);
         }
     }

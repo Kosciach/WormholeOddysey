@@ -28,4 +28,8 @@ public class MenuCanvasController : MonoBehaviour
         foreach (GameObject screen in _screens) screen.SetActive(false);
         _screens[index].SetActive(true);
     }
+    public void OpenUrl(string link)
+    {
+        Application.OpenURL(link);
+    }
 }

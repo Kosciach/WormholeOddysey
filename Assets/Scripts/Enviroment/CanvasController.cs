@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CanvasController : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI _healthText;
     [SerializeField] GameObject[] _screens;
 
 
@@ -26,5 +28,9 @@ public class CanvasController : MonoBehaviour
 
         foreach (GameObject screen in _screens) screen.SetActive(false);
         _screens[index].SetActive(true);
+    }
+    public void UpdateHP(float health)
+    {
+        _healthText.text = "Health: " + health;
     }
 }

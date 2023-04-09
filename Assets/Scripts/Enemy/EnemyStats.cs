@@ -10,9 +10,9 @@ public class EnemyStats : MonoBehaviour, IStatsInterface
 
     [Header("====Settings====")]
     [Range(0, 300)]
-    [SerializeField] float _health;
+    [SerializeField] protected float _health;
 
-    private bool _isDead;
+    protected bool _isDead;
 
     public delegate void EnemyStatsEvent();
     public static event EnemyStatsEvent Death;
@@ -45,7 +45,8 @@ public class EnemyStats : MonoBehaviour, IStatsInterface
         if (_isDead) return;
         _isDead = true;
 
-        //Death();
+        AudioController.Instance.PlaySound(2);
+        Death();
         Destroy(gameObject);
     }
 

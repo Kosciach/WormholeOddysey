@@ -14,6 +14,7 @@ public class PlayerDeathState : PlayerBaseState
 
     public override void StateEnter()
     {
+        _ctx.PlayerStats.ToggleCanTakeDamage(false);
         _ctx.Rigidbody.isKinematic = true;
         _ctx.transform.localScale = Vector3.zero;
         _ctx.InstanciateDeathEffect();

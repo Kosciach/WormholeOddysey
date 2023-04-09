@@ -18,6 +18,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("====PlayerScripts====")]
     [SerializeField] PlayerMovementController _playerMovementController; public PlayerMovementController MovementController { get { return _playerMovementController; } }
     [SerializeField] PlayerAnimatorScript _playerAnimationScript; public PlayerAnimatorScript PlayerAnimatorScript { get { return _playerAnimationScript; } }
+    [SerializeField] PlayerStats _playerStats; public PlayerStats PlayerStats { get { return _playerStats; } }
 
 
     [Space(20)]
@@ -26,6 +27,7 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] PlayableDirector _timeLine; public PlayableDirector TimeLine { get { return _timeLine; } }
     [SerializeField] VisualEffect _playerLandEffect; public VisualEffect PlayerLandEffect { get { return _playerLandEffect; } }
     [SerializeField] VisualEffect _playerDeathEffect; public VisualEffect PlayerDeathEffect { get { return _playerDeathEffect; } }
+    [SerializeField] Animator _cineAnimator;
 
 
     [SerializeField] SwitchesClass _switches; public SwitchesClass Swiches { get { return _switches; } set { _switches = value; } }
@@ -47,6 +49,10 @@ public class PlayerStateMachine : MonoBehaviour
         _currectState = _stateFactory.Grounded();
         _currectState.StateEnter();
         _switches.Grounded = true;
+    }
+    private void Start()
+    {
+        _cineAnimator.enabled = false;
     }
     private void Update()
     {
@@ -88,6 +94,7 @@ public class PlayerStateMachine : MonoBehaviour
         _switches.Menu = true;
 
         _currectState.StateExit();
+        _cineAnimator.enabled = true;
         _currectState = _stateFactory.Menu();
         _currectState.StateEnter();
     }
@@ -104,6 +111,37 @@ public class PlayerStateMachine : MonoBehaviour
         _currectState.StateEnter();
     }
 
+    private void Level2()
+    {
+        SceneManager.LoadScene("Level2EntranceScene");
+    }
+    private void Level3()
+    {
+        SceneManager.LoadScene("Level3EntranceScene");
+    }
+    private void Level4()
+    {
+        SceneManager.LoadScene("MenuScene");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Level2Entrance"))
+        {
+            SwitchToMenu();
+            Invoke("Level2", 3.3167f);
+        }
+        else if (collision.CompareTag("Level3Entrance"))
+        {
+            SwitchToMenu();
+            Invoke("Level3", 3.3167f);
+        }
+        else if (collision.CompareTag("EndGameEntrance"))
+        {
+            SwitchToMenu();
+            Invoke("Level4", 3.3167f);
+        }
+    }
 
     private void OnEnable()
     {

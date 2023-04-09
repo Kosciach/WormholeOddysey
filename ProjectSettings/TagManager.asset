@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Brozgon
   - BrozgonHive
+  - NextLevel
+  - Level2Entrance
+  - Level3Entrance
+  - EndGameEntrance
   layers:
   - Default
   - TransparentFX

@@ -11,6 +11,7 @@ public class PlayerJumpState : PlayerBaseState
 
     public override void StateEnter()
     {
+        AudioController.Instance.PlaySound(2);
         _ctx.PlayerAnimatorScript.JumpAnimation();
         _ctx.MovementController.Jump();
     }

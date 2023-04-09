@@ -33,6 +33,7 @@ public class AttackScript : MonoBehaviour
     {
         _trailRenderer.emitting = true;
         _canDealDamage = true;
+        AudioController.Instance.PlaySound(3);
         LeanTween.rotateLocal(_weapon.gameObject, _currentRotation, _attackSpeed).setOnComplete(() =>
         {
             _trailRenderer.emitting = false;

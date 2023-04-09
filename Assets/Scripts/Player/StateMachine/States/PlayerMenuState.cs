@@ -12,6 +12,7 @@ public class PlayerMenuState : PlayerBaseState
 
     public override void StateEnter()
     {
+        _ctx.PlayerStats.ToggleCanTakeDamage(false);
         _ctx.Rigidbody.isKinematic = true;
         _ctx.Rigidbody.velocity = Vector2.zero;
         _ctx.PlayerAnimatorScript.GroundedAnimation();
