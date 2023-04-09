@@ -14,6 +14,7 @@ public class PlayerMenuState : PlayerBaseState
     {
         _ctx.Rigidbody.isKinematic = true;
         _ctx.Rigidbody.velocity = Vector2.zero;
+        _ctx.PlayerAnimatorScript.GroundedAnimation();
         _ctx.TimeLine.Play();
     }
     public override void StateUpdate()

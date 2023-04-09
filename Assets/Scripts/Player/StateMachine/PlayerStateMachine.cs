@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+using UnityEngine.VFX;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -23,6 +25,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("====References====")]
     [SerializeField] Rigidbody2D _rigidbody; public Rigidbody2D Rigidbody { get { return _rigidbody;} set { _rigidbody = value; } }
     [SerializeField] PlayableDirector _timeLine; public PlayableDirector TimeLine { get { return _timeLine; } }
+    [SerializeField] VisualEffect _playerLandEffect; public VisualEffect PlayerLandEffect { get { return _playerLandEffect; } }
 
     [SerializeField] SwitchesClass _switches; public SwitchesClass Swiches { get { return _switches; } set { _switches = value; } }
     [System.Serializable]
@@ -53,6 +56,11 @@ public class PlayerStateMachine : MonoBehaviour
         _currectState.StateFixedUpdate();
     }
 
+
+    public void SpawnLandEffect()
+    {
+        Destroy(Instantiate(_playerLandEffect, transform.position, Quaternion.identity), 3);
+    }
 
     private void SwitchToJump()
     {

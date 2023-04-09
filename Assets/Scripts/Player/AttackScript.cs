@@ -16,6 +16,8 @@ public class AttackScript : MonoBehaviour
     [Range(0, 4)] [SerializeField] float _attackSpeed;
 
 
+    private bool _canDealDamage;
+
     private void TurnLeft()
     {
         transform.rotation = Quaternion.Euler(0f, -180f, 0f);
@@ -30,14 +32,20 @@ public class AttackScript : MonoBehaviour
     private void Attack()
     {
         _trailRenderer.emitting = true;
+        _canDealDamage = true;
         LeanTween.rotateLocal(_weapon.gameObject, _currentRotation, _attackSpeed).setOnComplete(() =>
         {
             _trailRenderer.emitting = false;
+            _canDealDamage = false;
         });
 
         _currentRotation = _currentRotation == _topRotation ? _bottomRotation : _topRotation;
     }
 
+    public bool CheckCanDealDamage()
+    {
+        return _canDealDamage;
+    }
 
 
 

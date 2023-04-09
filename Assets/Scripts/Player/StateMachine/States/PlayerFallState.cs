@@ -12,7 +12,10 @@ public class PlayerFallState : PlayerBaseState
     public override void StateEnter()
     {
         //_ctx.PlayerAnimatorScript.FallAnimation();
-        _ctx.Rigidbody.velocity -= new Vector2(0f, 4f);
+        LeanTween.value(0, 0.5f, 0.3f).setOnUpdate((float val) =>
+        {
+            _ctx.Rigidbody.velocity -= new Vector2(0f, val);
+        });
     }
     public override void StateUpdate()
     {
@@ -33,6 +36,7 @@ public class PlayerFallState : PlayerBaseState
     public override void StateExit()
     {
         _ctx.PlayerAnimatorScript.LandAnimation();
+        _ctx.SpawnLandEffect();
         _ctx.Swiches.Fall = false;
     }
 }
