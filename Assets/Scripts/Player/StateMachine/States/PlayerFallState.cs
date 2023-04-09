@@ -14,7 +14,7 @@ public class PlayerFallState : PlayerBaseState
         //_ctx.PlayerAnimatorScript.FallAnimation();
         LeanTween.value(0, 0.5f, 0.3f).setOnUpdate((float val) =>
         {
-            _ctx.Rigidbody.velocity -= new Vector2(0f, val);
+            if(_ctx.Rigidbody != null) _ctx.Rigidbody.velocity -= new Vector2(0f, val);
         });
     }
     public override void StateUpdate()
@@ -35,8 +35,11 @@ public class PlayerFallState : PlayerBaseState
     }
     public override void StateExit()
     {
-        _ctx.PlayerAnimatorScript.LandAnimation();
-        _ctx.SpawnLandEffect();
+        if (!_ctx.Swiches.Death)
+        {
+            _ctx.PlayerAnimatorScript.LandAnimation();
+            _ctx.InstanciateLandEffect();
+        }
         _ctx.Swiches.Fall = false;
     }
 }

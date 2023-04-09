@@ -22,7 +22,7 @@ public class GamePauseState : GameBaseState
             else if (_ctx.Swiches.Gameplay) StateChange(_factory.Gameplay());
         }
     }
-    protected override void StateExit()
+    public override void StateExit()
     {
         Time.timeScale = 1f;
         _ctx.Swiches.Pause = false;

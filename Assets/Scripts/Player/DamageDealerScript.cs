@@ -8,7 +8,6 @@ public class DamageDealerScript : MonoBehaviour
 {
     [Header("====Reference====")]
     [SerializeField] AttackScript _attackScript;
-    [SerializeField] VisualEffect _enemyHitEffect;
 
     [Space(20)]
     [Header("====Settings====")]
@@ -22,10 +21,9 @@ public class DamageDealerScript : MonoBehaviour
     {
         if (!_attackScript.CheckCanDealDamage()) return;
 
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Brozgon") || collision.CompareTag("BrozgonHive"))
         {
-            collision.GetComponent<EnemyStats>()?.TakeDamage(_damage);
-            Destroy(Instantiate(_enemyHitEffect, transform.position, Quaternion.identity), 3);
+            collision.GetComponent<IStatsInterface>().TakeDamage(_damage);
         }
     }
 }

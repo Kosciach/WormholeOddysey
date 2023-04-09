@@ -23,10 +23,14 @@ public class EnemyIdleState : EnemyBaseState
     }
     public override void StateCheckChange()
     {
-
+        if(_ctx.PlayerDetector.IsPlayerDetected)
+        {
+            StateChange(_factory.Attack());
+            _ctx.Swiches.Attack = true;
+        }
     }
     public override void StateExit()
     {
-
+        _ctx.Swiches.Idle = false;
     }
 }

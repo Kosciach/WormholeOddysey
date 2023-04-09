@@ -17,7 +17,7 @@ public abstract class GameBaseState
 
     public abstract void StateEnter();
     public abstract void StateCheckChange();
-    protected abstract void StateExit();
+    public abstract void StateExit();
 
 
     protected void StateChange(GameBaseState newState)

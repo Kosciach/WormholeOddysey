@@ -16,7 +16,7 @@ public class GameGameplayState : GameBaseState
     {
         if (_ctx.Swiches.Pause) StateChange(_factory.Pause());
     }
-    protected override void StateExit()
+    public override void StateExit()
     {
         _ctx.Swiches.Gameplay = false;
     }

@@ -17,7 +17,7 @@ public class GameExitState : GameBaseState
     {
 
     }
-    protected override void StateExit()
+    public override void StateExit()
     {
         _ctx.Swiches.Exit = false;
     }

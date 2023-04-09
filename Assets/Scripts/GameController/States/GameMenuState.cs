@@ -17,7 +17,7 @@ public class GameMenuState : GameBaseState
     {
 
     }
-    protected override void StateExit()
+    public override void StateExit()
     {
         _ctx.Swiches.Menu = false;
     }

@@ -12,7 +12,47 @@ public class EnemyStateMachine : MonoBehaviour
 
     [Space(20)]
     [Header("====EnemyScripts====")]
-    [SerializeField] EnemyMovementController _movementController; public EnemyMovementController MovementController { get { return _movementController; } }
+    [SerializeField] PlayerDetector _playerDetector; public PlayerDetector PlayerDetector { get { return _playerDetector; } }
+    [SerializeField] EnemyProjectileSpawner _projectileSpawner; public EnemyProjectileSpawner ProjectileSpawner { get { return _projectileSpawner; } }
+
+
+    [SerializeField] SwitchesClass _switches; public SwitchesClass Swiches { get { return _switches; } set { _switches = value; } }
+    [System.Serializable]
+    public class SwitchesClass
+    {
+        public bool Idle;
+        public bool Attack;
+    }
+
+
+
+    private void Awake()
+    {
+        _stateFactory = new EnemyStateFactory(this);
+        _currectState = _stateFactory.Idle();
+        _currectState.StateEnter();
+        SwitchToIdle();
+    }
+    private void Update()
+    {
+        _currectState.StateUpdate();
+        _currectState.StateCheckChange();
+    }
+    private void FixedUpdate()
+    {
+        _currectState.StateFixedUpdate();
+    }
+
+
+
+    private void SwitchToAttack()
+    {
+        _switches.Attack = true;
+    }
+    private void SwitchToIdle()
+    {
+        _switches.Idle = true;
+    }
 }
 
 
@@ -33,5 +73,9 @@ public class EnemyStateFactory
     public EnemyBaseState Idle()
     {
         return new EnemyIdleState(_ctx, this, MethodBase.GetCurrentMethod().Name);
+    }
+    public EnemyBaseState Attack()
+    {
+        return new EnemyAttackState(_ctx, this, MethodBase.GetCurrentMethod().Name);
     }
 }

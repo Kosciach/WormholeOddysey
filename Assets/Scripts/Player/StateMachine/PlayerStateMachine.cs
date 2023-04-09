@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -26,6 +25,8 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] Rigidbody2D _rigidbody; public Rigidbody2D Rigidbody { get { return _rigidbody;} set { _rigidbody = value; } }
     [SerializeField] PlayableDirector _timeLine; public PlayableDirector TimeLine { get { return _timeLine; } }
     [SerializeField] VisualEffect _playerLandEffect; public VisualEffect PlayerLandEffect { get { return _playerLandEffect; } }
+    [SerializeField] VisualEffect _playerDeathEffect; public VisualEffect PlayerDeathEffect { get { return _playerDeathEffect; } }
+
 
     [SerializeField] SwitchesClass _switches; public SwitchesClass Swiches { get { return _switches; } set { _switches = value; } }
     [System.Serializable]
@@ -35,6 +36,7 @@ public class PlayerStateMachine : MonoBehaviour
         public bool Jump;
         public bool Fall;
         public bool Menu;
+        public bool Death;
     }
 
 
@@ -57,10 +59,18 @@ public class PlayerStateMachine : MonoBehaviour
     }
 
 
-    public void SpawnLandEffect()
+    public void InstanciateLandEffect()
     {
         Destroy(Instantiate(_playerLandEffect, transform.position, Quaternion.identity), 3);
     }
+    public void InstanciateDeathEffect()
+    {
+        VisualEffect newEffect = Instantiate(_playerDeathEffect, transform.GetChild(0).position, Quaternion.identity);
+        Destroy(newEffect, 5);
+    }
+
+
+
 
     private void SwitchToJump()
     {
@@ -81,6 +91,18 @@ public class PlayerStateMachine : MonoBehaviour
         _currectState = _stateFactory.Menu();
         _currectState.StateEnter();
     }
+    private void SwitchToDeath()
+    {
+        _switches.Grounded = false;
+        _switches.Jump = false;
+        _switches.Fall = false;
+        _switches.Menu = false;
+        _switches.Death = true;
+
+        _currectState.StateExit();
+        _currectState = _stateFactory.Death();
+        _currectState.StateEnter();
+    }
 
 
     private void OnEnable()
@@ -88,12 +110,14 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerInputController.Jump += SwitchToJump;
         GameStateFactory.GameplayEvent += SwitchToGrounded;
         GameStateFactory.MenuEvent += SwitchToMenu;
+        PlayerStats.Death += SwitchToDeath;
     }
     private void OnDisable()
     {
         PlayerInputController.Jump -= SwitchToJump;
         GameStateFactory.GameplayEvent -= SwitchToGrounded;
         GameStateFactory.MenuEvent -= SwitchToMenu;
+        PlayerStats.Death -= SwitchToDeath;
     }
 }
 
@@ -133,5 +157,10 @@ public class PlayerStateFactory
     {
         string stateName = MethodBase.GetCurrentMethod().Name;
         return new PlayerMenuState(_ctx, this, stateName);
+    }
+    public PlayerBaseState Death()
+    {
+        string stateName = MethodBase.GetCurrentMethod().Name;
+        return new PlayerDeathState(_ctx, this, stateName);
     }
 }

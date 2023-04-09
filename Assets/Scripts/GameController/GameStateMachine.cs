@@ -23,6 +23,7 @@ public class GameStateMachine : MonoBehaviour
         public bool Gameplay;
         public bool Pause;
         public bool Exit;
+        public bool PlayerDied;
     }
 
 
@@ -59,15 +60,23 @@ public class GameStateMachine : MonoBehaviour
         _switches.Gameplay = true;
         _switches.Pause = !_switches.Pause;
     }
+    private void SwitchToPlayerDied()
+    {
+        _switches.PlayerDied = true;
+
+        //_currectState.
+    }
 
 
     private void OnEnable()
     {
         GameInputController.Pause += SwitchToPause;
+        PlayerStats.Death += SwitchToPlayerDied;
     }
     private void OnDisable()
     {
         GameInputController.Pause -= SwitchToPause;
+        PlayerStats.Death -= SwitchToPlayerDied;
     }
 
 
@@ -116,5 +125,10 @@ public class GameStateFactory
         //PauseEvent();
         string stateName = MethodBase.GetCurrentMethod().Name;
         return new GamePauseState(_ctx, this, stateName);
+    }
+    public GameBaseState PlayerDied()
+    {
+        string stateName = MethodBase.GetCurrentMethod().Name;
+        return new GamePlayerDiedState(_ctx, this, stateName);
     }
 }

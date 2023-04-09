@@ -15,7 +15,7 @@ public class EnemyAttackState : EnemyBaseState
     }
     public override void StateUpdate()
     {
-
+        _ctx.ProjectileSpawner.SpawningTimer();
     }
     public override void StateFixedUpdate()
     {
@@ -23,10 +23,14 @@ public class EnemyAttackState : EnemyBaseState
     }
     public override void StateCheckChange()
     {
-
+        if (!_ctx.PlayerDetector.IsPlayerDetected)
+        {
+            StateChange(_factory.Idle());
+            _ctx.Swiches.Idle = true;
+        }
     }
     public override void StateExit()
     {
-
+        _ctx.Swiches.Attack = false;
     }
 }
