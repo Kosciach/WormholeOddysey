@@ -21,7 +21,7 @@
 <br>
 
 <h3 align="center">
-  <a href="TwoPlayers.md">Enemies</a>
+  <a href="Enemies.md">Enemies</a>
 </h3>
 
 <br>
