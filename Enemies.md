@@ -15,7 +15,7 @@
 <br>
 <h2 align="center">Medium</h2>
 <p align="center">
-    Serve as a base hive for small enemies, they will spawn non-stop.
+    Serve as a base hive for small enemies, they will spawn non-stop when player is in the range.<br>
     In order to destroy the hive, player has to fight throught a horde of small ones and finally hit the hive.
 </p>
 
